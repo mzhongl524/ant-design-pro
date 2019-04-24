@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import ReactFitText from 'react-fittext';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
+import ResizeObserver from 'resize-observer-polyfill';
 import autoHeight from '../autoHeight';
-
 import styles from './index.less';
 
 /* eslint react/no-danger:0 */
@@ -26,6 +26,16 @@ class Pie extends Component {
       },
       { passive: true }
     );
+
+    const ro = new ResizeObserver(entries => {
+      const { left, top, width, height } = entries[0].contentRect;
+      console.log(`Element's size: ${width}px x ${height}px`);
+      console.log(`Element's paddings: ${top}px ; ${left}px`);
+    });
+    ro.observe(document.body);
+    if (this.root) {
+      ro.observe(this.root);
+    }
   }
 
   componentDidUpdate(preProps) {
