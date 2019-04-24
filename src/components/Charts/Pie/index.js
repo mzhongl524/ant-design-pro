@@ -32,7 +32,6 @@ class Pie extends Component {
       console.log(`Element's size: ${width}px x ${height}px`);
       console.log(`Element's paddings: ${top}px ; ${left}px`);
     });
-    ro.observe(document.body);
     if (this.root) {
       ro.observe(this.root);
     }
