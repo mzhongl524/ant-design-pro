@@ -14,6 +14,7 @@ import styles from './index.less';
 @autoHeight()
 class Pie extends Component {
   state = {
+    width: 0,
     legendData: [],
     legendBlock: false,
   };
@@ -27,8 +28,11 @@ class Pie extends Component {
       { passive: true }
     );
 
-    const ro = new ResizeObserver(() => {
-      this.resize();
+    const ro = new ResizeObserver(entries => {
+      const { width } = entries[0].contentRect;
+      this.setState({
+        width,
+      });
     });
     if (this.root) {
       ro.observe(this.root);
@@ -132,7 +136,6 @@ class Pie extends Component {
       className,
       style,
       height,
-      forceFit = true,
       percent,
       color,
       inner = 0.75,
@@ -141,7 +144,7 @@ class Pie extends Component {
       lineWidth = 1,
     } = this.props;
 
-    const { legendData, legendBlock } = this.state;
+    const { legendData, width, legendBlock } = this.state;
     const pieClassName = classNames(styles.pie, className, {
       [styles.hasLegend]: !!hasLegend,
       [styles.legendBlock]: legendBlock,
@@ -219,8 +222,8 @@ class Pie extends Component {
             <Chart
               scale={scale}
               height={height}
-              forceFit={forceFit}
               data={dv}
+              width={width}
               padding={padding}
               animate={animate}
               onGetG2Instance={this.getG2Instance}
