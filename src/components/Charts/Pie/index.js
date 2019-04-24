@@ -27,10 +27,8 @@ class Pie extends Component {
       { passive: true }
     );
 
-    const ro = new ResizeObserver(entries => {
-      const { left, top, width, height } = entries[0].contentRect;
-      console.log(`Element's size: ${width}px x ${height}px`);
-      console.log(`Element's paddings: ${top}px ; ${left}px`);
+    const ro = new ResizeObserver(() => {
+      this.resize();
     });
     if (this.root) {
       ro.observe(this.root);
